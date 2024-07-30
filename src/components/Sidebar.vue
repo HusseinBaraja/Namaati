@@ -8,7 +8,7 @@ import TypewriterEffect from "@/components/Animation/TypewriterEffect.vue";
 
 const router = useRouter();
 
-const t = (key) => key; // Replace with your actual translation function
+const t = (key) => key;
 
 const items = [
   { type: "subheader", title: t("apps") },
@@ -23,11 +23,11 @@ const items = [
     value: "/",
   },
   {
-    title: t("Dashboard"),
+    title: t("error"),
     props: {
       prependIcon: icons.dashboard,
       link: true,
-      to: "/",
+      to: "/:catchAll(.*)",
       exact: true,
     },
     value: "/",
