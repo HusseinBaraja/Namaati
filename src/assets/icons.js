@@ -1,4 +1,4 @@
-import {mdiEmail, mdiAccount, mdiFileDocument, mdiAccountMultiplePlus, mdiMonitor, mdiArrowLeft, mdiArrowRight, mdiArrowExpandLeft, mdiArrowExpandRight, mdiHomeVariant } from "@mdi/js";
+import {mdiExcavator, mdiEmail, mdiAccount, mdiFileDocument, mdiAccountMultiplePlus, mdiMonitor, mdiArrowLeft, mdiArrowRight, mdiArrowExpandLeft, mdiArrowExpandRight, mdiHomeVariant } from "@mdi/js";
 
 export const icons = {
   dashboard: mdiMonitor,
@@ -11,4 +11,5 @@ export const icons = {
   file: mdiFileDocument,
   user: mdiAccount,
   mail: mdiEmail,
+  excavator: mdiExcavator,
 };
