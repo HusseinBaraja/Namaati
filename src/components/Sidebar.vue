@@ -23,14 +23,14 @@ const items = [
     value: "/",
   },
   {
-    title: t("error"),
+    title: t("Register"),
     props: {
-      prependIcon: icons.dashboard,
+      prependIcon: icons.register,
       link: true,
-      to: "/:catchAll(.*)",
+      to: "/register",
       exact: true,
     },
-    value: "/",
+    value: "/register",
   },
   // ... (other menu items)
 ];
@@ -231,21 +231,3 @@ onMounted(() => {
     </button>
   </nav>
 </template>
-
-<style scoped>
-.router-link-active .text-gray-500 {
-  color: #4a5568; /* or any color you prefer for active state */
-}
-.w-28 .router-link-exact-active {
-  background-color: #e2e8f0;
-}
-.subheader-transition {
-  transition-duration: 500ms;
-  transition-delay: 300ms;
-}
-
-.menu-item-transition {
-  transition-duration: 300ms;
-  transition-delay: 0ms;
-}
-</style>
