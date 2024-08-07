@@ -6,15 +6,12 @@ import Sidebar from "@/components/Sidebar.vue";
 <template>
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <Sidebar />
+    <!--    <Sidebar />-->
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-
       <!-- Main Content Area with RouterView -->
-      <main class="flex-1 overflow-y-auto p-4">
-        <RouterView />
-      </main>
+      <RouterView />
     </div>
   </div>
 </template>
