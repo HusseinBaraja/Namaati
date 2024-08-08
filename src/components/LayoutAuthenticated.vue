@@ -1,13 +1,6 @@
 <script setup>
-import { ref } from "vue";
 import Sidebar from "@/components/Sidebar.vue";
 import FooterBar from "@/components/FooterBar.vue";
-
-const isAsideActive = ref(true);
-
-const toggleMenu = () => {
-  isAsideActive.value = !isAsideActive.value;
-};
 </script>
 
 <template>

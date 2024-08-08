@@ -7,7 +7,6 @@ import FormControl from "@/components/BaseComponents/FormControl.vue";
 import BaseDivider from "@/components/BaseComponents/BaseDivider.vue";
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseButtons from "@/components/BaseComponents/BaseButtons.vue";
-import TestButton from "@/components/TestButton.vue";
 import SectionTitle from "@/components/SectionTitle.vue";
 import FormCheckRadioGroup from "@/components/BaseComponents/FormCheckRadioGroup.vue";
 import FormFilePicker from "@/components/BaseComponents/FormFilePicker.vue";
@@ -113,9 +112,8 @@ const notificationColorClass = computed(() => {
             </FormField>
 
             <BaseButtons>
-              <BaseButton type="submit" color="blue" label="Submit" />
-              <BaseButton type="reset" color="white" outline label="Reset" />
-              <TestButton theme="primary" text="text">Click Me</TestButton>
+              <BaseButton color="info" type="submit" label="Submit" />
+              <BaseButton color="info" label="Options" outline />
             </BaseButtons>
           </form>
         </CardBox>

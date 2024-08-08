@@ -1,33 +1,102 @@
-<template>
-  <button
-      :type="type"
-      :class="[
-      'px-4 py-2 rounded transition-colors',
-      color === 'blue' ? 'bg-blue-500 text-white hover:bg-blue-600' : '',
-      color === 'white' && outline ? 'bg-white text-blue-500 border border-blue-500 hover:bg-blue-50' : ''
-    ]"
-  >
-    {{ label }}
-  </button>
-</template>
-
 <script setup>
-defineProps({
+import { computed } from "vue";
+import { RouterLink } from "vue-router";
+import { getButtonColor } from "@/gloabalVars/colors.js";
+
+const props = defineProps({
+  label: {
+    type: [String, Number],
+    default: null,
+  },
+  href: {
+    type: String,
+    default: null,
+  },
+  target: {
+    type: String,
+    default: null,
+  },
+  to: {
+    type: [String, Object],
+    default: null,
+  },
   type: {
     type: String,
-    default: 'button'
+    default: null,
   },
   color: {
     type: String,
-    default: 'blue'
+    default: "white",
   },
-  outline: {
-    type: Boolean,
-    default: false
-  },
-  label: {
-    type: String,
-    required: true
+  small: Boolean,
+  outline: Boolean,
+  active: Boolean,
+  disabled: Boolean,
+  roundedFull: Boolean,
+});
+
+const is = computed(() => {
+  if (props.to) {
+    return RouterLink;
   }
-})
+
+  if (props.href) {
+    return "a";
+  }
+
+  return "button";
+});
+
+const computedType = computed(() => {
+  if (is.value === "button") {
+    return props.type ?? "button";
+  }
+
+  return null;
+});
+
+const labelClass = computed(() => (props.small ? "px-1" : "px-2"));
+
+const componentClass = computed(() => {
+  const base = [
+    "inline-flex",
+    "justify-center",
+    "items-center",
+    "whitespace-nowrap",
+    "focus:outline-none",
+    "transition-colors",
+    "focus:ring-1", // Changed from "focus:ring" to "focus:ring-1" for a thinner outline
+    "duration-150",
+    "border",
+    props.disabled ? "cursor-not-allowed" : "cursor-pointer",
+    props.roundedFull ? "rounded-full" : "rounded",
+    getButtonColor(props.color, props.outline, !props.disabled, props.active),
+  ];
+
+  if (props.small) {
+    base.push("text-sm", props.roundedFull ? "px-3 py-1" : "p-1");
+  } else {
+    base.push("py-2", props.roundedFull ? "px-6" : "px-3");
+  }
+
+  if (props.disabled) {
+    base.push(props.outline ? "opacity-50" : "opacity-70");
+  }
+
+  return base;
+});
 </script>
+
+<template>
+  <component
+    :is="is"
+    :class="componentClass"
+    :href="href"
+    :type="computedType"
+    :to="to"
+    :target="target"
+    :disabled="disabled"
+  >
+    <span v-if="label" :class="labelClass">{{ label }}</span>
+  </component>
+</template>

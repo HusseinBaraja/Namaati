@@ -71,19 +71,31 @@ const handleDrawerWidth = () => {
   }, 10);
 
   // Reset isSettling for menu items
-  setTimeout(() => {
-    menuItemProps.isSettling = false;
-  }, menuItemProps.transitionDuration + menuItemProps.transitionDelay + 10);
+  setTimeout(
+    () => {
+      menuItemProps.isSettling = false;
+    },
+    menuItemProps.transitionDuration + menuItemProps.transitionDelay + 10,
+  );
 
   // Reset isSettling for subheader
-  setTimeout(() => {
-    subheaderProps.isSettling = false;
-  }, subheaderProps.transitionDuration + subheaderProps.transitionDelay + 10);
+  setTimeout(
+    () => {
+      subheaderProps.isSettling = false;
+    },
+    subheaderProps.transitionDuration + subheaderProps.transitionDelay + 10,
+  );
 
   // Reset isSettling for drawer
-  setTimeout(() => {
-    drawerProps.isSettling = false;
-  }, Math.max(menuItemProps.transitionDuration + menuItemProps.transitionDelay, subheaderProps.transitionDuration + subheaderProps.transitionDelay) + 20);
+  setTimeout(
+    () => {
+      drawerProps.isSettling = false;
+    },
+    Math.max(
+      menuItemProps.transitionDuration + menuItemProps.transitionDelay,
+      subheaderProps.transitionDuration + subheaderProps.transitionDelay,
+    ) + 20,
+  );
 };
 
 const menus = computed(() => items); // Always return all items
@@ -209,14 +221,14 @@ onMounted(() => {
     </div>
     <button
       @click="handleDrawerWidth"
-      class="absolute top-1/2 transform -translate-y-1/2 bg-white rounded-full w-14 h-14 shadow-md hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center"
+      class="absolute top-1/2 transform -translate-y-1/2 bg-gray-300 rounded-full w-14 h-14 shadow-md hover:bg-gray-500 transition-colors duration-300 flex items-center justify-center group"
       :style="{
         right: drawerProps.railWidth === 256 ? '-29px' : '-29px',
       }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 text-gray-500"
+        class="h-6 w-6 text-gray-500 group-hover:text-gray-300 transition-colors duration-300"
         fill="currentColor"
         viewBox="0 0 24 24"
         stroke="currentColor"
