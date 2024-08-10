@@ -1,58 +1,103 @@
-<template>
-  <div class="relative">
-    <input
-        v-if="type !== 'textarea' && type !== 'select'"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-        :type="type"
-        :class="['py-2 w-full border border-gray-300 rounded focus:ring focus:ring-blue-200 focus:outline-none', icon ? 'pl-10 pr-3' : 'pl-3 pr-3']"
-        :placeholder="placeholder"
-    />
-    <textarea
-        v-else-if="type === 'textarea'"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-        class="px-3 py-2 w-full h-24 border border-gray-300 rounded focus:ring focus:ring-blue-200 focus:outline-none"
-        :placeholder="placeholder"
-    ></textarea>
-    <select
-        v-if="type === 'select'"
-        :value="modelValue.id"
-        @change="$emit('update:modelValue', options.find(option => option.id === parseInt($event.target.value)))"
-        class="px-3 py-2 w-full border border-gray-300 rounded focus:ring focus:ring-blue-200 focus:outline-none"
-    >
-      <option v-for="option in options" :key="option.id" :value="option.id">
-        {{ option.label }}
-      </option>
-    </select>
-    <svg v-if="icon" class="w-5 h-5 text-gray-500 absolute left-3 top-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path :d="icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-    </svg>
-  </div>
-</template>
-
 <script setup>
-defineProps({
-  modelValue: {
-    type: [String, Object],
-    required: true
-  },
-  type: {
+import { computed } from "vue";
+import FormControlIcon from "@/components/BaseComponents/FormControlIcon.vue";
+
+const props = defineProps({
+  name: {
     type: String,
-    default: 'text'
+    default: null,
+  },
+  id: {
+    type: String,
+    default: null,
+  },
+  autocomplete: {
+    type: String,
+    default: null,
   },
   placeholder: {
     type: String,
-    default: ''
+    default: null,
   },
   icon: {
     type: String,
-    default: null
+    default: null,
   },
   options: {
     type: Array,
-    default: () => []
-  }
+    default: null,
+  },
+  type: {
+    type: String,
+    default: "text",
+  },
+  required: Boolean,
+  transparent: Boolean,
 });
-defineEmits(['update:modelValue']);
+
+const emit = defineEmits(["update:modelValue"]);
+
+const inputElClass = computed(() => {
+  const base = [
+    "px-3 py-2 max-w-full focus:ring focus:outline-none border-gray-700 rounded w-full",
+    "dark:placeholder-gray-400",
+    computedType.value === "textarea" ? "h-24" : "h-12",
+    "border",
+    props.transparent ? "bg-transparent" : "bg-white dark:bg-slate-800",
+  ];
+
+  if (props.icon) {
+    base.push("pl-10");
+  }
+
+  return base;
+});
+
+const computedType = computed(() => (props.options ? "select" : props.type));
+
+const controlIconH = computed(() =>
+  props.type === "textarea" ? "h-full" : "h-12",
+);
 </script>
+
+<template>
+  <div class="relative">
+    <select
+      v-if="computedType === 'select'"
+      :id="id"
+      :name="name"
+      :class="inputElClass"
+      :required="required"
+      @change="$emit('update:modelValue', $event.target.value)"
+    >
+      <option
+        v-for="option in options"
+        :key="option.id ?? option"
+        :value="option"
+      >
+        {{ option.label ?? option }}
+      </option>
+    </select>
+    <textarea
+      v-else-if="computedType === 'textarea'"
+      :id="id"
+      :class="inputElClass"
+      :name="name"
+      :placeholder="placeholder"
+      :required="required"
+      @input="$emit('update:modelValue', $event.target.value)"
+    ></textarea>
+    <input
+      v-else
+      :id="id"
+      :name="name"
+      :autocomplete="autocomplete"
+      :required="required"
+      :placeholder="placeholder"
+      :type="computedType"
+      :class="inputElClass"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+    <FormControlIcon v-if="icon" :icon="icon" :h="controlIconH" />
+  </div>
+</template>
