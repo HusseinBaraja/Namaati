@@ -8,14 +8,18 @@ const props = defineProps({
   },
   w: {
     type: String,
-    default: "w-6",
+    default: "w-7",
   },
   h: {
     type: String,
-    default: "h-6",
+    default: "h-7",
   },
   size: {
     type: [String, Number],
+    default: null,
+  },
+  color: {
+    type: String,
     default: null,
   },
 });
@@ -25,6 +29,10 @@ const spanClass = computed(
 );
 
 const iconSize = computed(() => props.size ?? 16);
+
+const iconColor = computed(() =>
+  props.color ? `text-${props.color}-500` : "text-current",
+);
 </script>
 
 <template>
@@ -33,7 +41,7 @@ const iconSize = computed(() => props.size ?? 16);
       viewBox="0 0 24 24"
       :width="iconSize"
       :height="iconSize"
-      class="inline-block"
+      :class="[iconColor, 'inline-block']"
     >
       <path fill="currentColor" :d="path" />
     </svg>

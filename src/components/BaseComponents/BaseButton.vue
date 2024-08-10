@@ -2,9 +2,18 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { getButtonColor } from "@/gloabalVars/colors.js";
+import BaseIcon from "@/components/Images/BaseIcon.vue";
 
 const props = defineProps({
   label: {
+    type: [String, Number],
+    default: null,
+  },
+  icon: {
+    type: String,
+    default: null,
+  },
+  iconSize: {
     type: [String, Number],
     default: null,
   },
@@ -65,7 +74,7 @@ const componentClass = computed(() => {
     "whitespace-nowrap",
     "focus:outline-none",
     "transition-colors",
-    "focus:ring-1", // Changed from "focus:ring" to "focus:ring-1" for a thinner outline
+    "focus:ring-1",
     "duration-150",
     "border",
     props.disabled ? "cursor-not-allowed" : "cursor-pointer",
@@ -73,7 +82,9 @@ const componentClass = computed(() => {
     getButtonColor(props.color, props.outline, !props.disabled, props.active),
   ];
 
-  if (props.small) {
+  if (!props.label && props.icon) {
+    base.push("p-1");
+  } else if (props.small) {
     base.push("text-sm", props.roundedFull ? "px-3 py-1" : "p-1");
   } else {
     base.push("py-2", props.roundedFull ? "px-6" : "px-3");
@@ -97,6 +108,7 @@ const componentClass = computed(() => {
     :target="target"
     :disabled="disabled"
   >
+    <BaseIcon v-if="icon" :path="icon" :size="iconSize" />
     <span v-if="label" :class="labelClass">{{ label }}</span>
   </component>
 </template>

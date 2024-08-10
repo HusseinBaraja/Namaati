@@ -1,13 +1,13 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
-import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
+import SectionTitleLineWithButton from "@/components/BaseComponents/SectionTitleLineWithButton.vue";
 import CardBox from "@/components/BaseComponents/BaseCardBox.vue";
 import FormField from "@/components/BaseComponents/FormField.vue";
 import FormControl from "@/components/BaseComponents/FormControl.vue";
 import BaseDivider from "@/components/BaseComponents/BaseDivider.vue";
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
 import BaseButtons from "@/components/BaseComponents/BaseButtons.vue";
-import SectionTitle from "@/components/SectionTitle.vue";
+import SectionTitle from "@/components/BaseComponents/SectionTitle.vue";
 import FormCheckRadioGroup from "@/components/BaseComponents/FormCheckRadioGroup.vue";
 import FormFilePicker from "@/components/BaseComponents/FormFilePicker.vue";
 import NotificationBarInCard from "@/components/BaseComponents/NotificationBarInCard.vue";
@@ -68,7 +68,12 @@ const notificationColorClass = computed(() => {
   <LayoutAuthenticated>
     <SectionContainer>
       <div class="p-6 xl:max-w-6xl xl:mx-auto">
-        <SectionTitleLineWithButton :icon="icons.file" title="Forms example" />
+        <SectionTitleLineWithButton
+          :icon="icons.file"
+          title="Forms example"
+          color="blue"
+          :button-icon="icons.excavator"
+        />
 
         <CardBox>
           <form @submit.prevent="submit" class="p-6">

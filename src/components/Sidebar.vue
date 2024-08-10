@@ -221,14 +221,14 @@ onMounted(() => {
     </div>
     <button
       @click="handleDrawerWidth"
-      class="absolute top-1/2 transform -translate-y-1/2 bg-gray-300 rounded-full w-14 h-14 shadow-md hover:bg-gray-500 transition-colors duration-300 flex items-center justify-center group"
+      class="absolute top-1/2 transform -translate-y-1/2 bg-white rounded-full w-14 h-14 shadow-md hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center"
       :style="{
         right: drawerProps.railWidth === 256 ? '-29px' : '-29px',
       }"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 text-gray-500 group-hover:text-gray-300 transition-colors duration-300"
+        class="h-6 w-6 text-gray-500"
         fill="currentColor"
         viewBox="0 0 24 24"
         stroke="currentColor"

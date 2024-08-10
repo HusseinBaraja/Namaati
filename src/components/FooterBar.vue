@@ -1,6 +1,6 @@
 <script setup>
 import BaseLevel from "@/components/BaseComponents/BaseLevel.vue";
-import NamaatiLogo from "@/components/NamaatiLogo.vue";
+import NamaatiLogo from "@/components/Images/NamaatiLogo.vue";
 
 const year = new Date().getFullYear();
 </script>
