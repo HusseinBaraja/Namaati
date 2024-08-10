@@ -74,11 +74,16 @@ const notificationColorClass = computed(() => {
           <form @submit.prevent="submit" class="p-6">
             <FormField label="Grouped with icons">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormControl v-model="form.name" :icon="icons.user" />
+                <FormControl
+                  v-model="form.name"
+                  :icon="icons.user"
+                  placeholder="Name"
+                />
                 <FormControl
                   v-model="form.email"
                   type="email"
                   :icon="icons.mail"
+                  placeholder="Email"
                 />
               </div>
             </FormField>
