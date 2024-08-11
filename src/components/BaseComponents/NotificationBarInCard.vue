@@ -1,14 +1,21 @@
-<template>
-  <div :class="[color, 'p-4 mb-6 rounded-t-2xl -mx-6 -mt-6']">
-    <slot></slot>
-  </div>
-</template>
-
 <script setup>
+import { colorsBgLight } from "@/gloabalVars/colors.js";
+
 defineProps({
   color: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
+
+<template>
+  <div class="flex flex-col mb-6 -mt-6 -mr-6 -ml-6 animate-fade-in">
+    <div
+      :class="[colorsBgLight[color]]"
+      class="rounded-t-2xl flex flex-col p-6 transition-colors"
+    >
+      <slot />
+    </div>
+  </div>
+</template>

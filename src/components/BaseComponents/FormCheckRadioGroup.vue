@@ -1,65 +1,57 @@
-<template>
-  <div class="mb-6">
-    <label class="block font-bold mb-2">{{ label }}</label>
-    <div class="flex flex-wrap -mb-3">
-      <label v-for="(value, key) in options" :key="key" class="inline-flex items-center mr-6 mb-3">
-        <input
-            :type="type === 'switch' ? 'checkbox' : type"
-            :checked="isChecked(key)"
-            @change="updateValue(key)"
-            :class="[
-            'h-5 w-5',
-            type === 'checkbox' || type === 'switch' ? 'form-checkbox' : 'form-radio',
-            'text-blue-600'
-          ]"
-        />
-        <span class="ml-2">{{ value }}</span>
-      </label>
-    </div>
-  </div>
-</template>
-
 <script setup>
+import { computed } from "vue";
+import FormCheckRadio from "@/components/fragments/FormCheckRadio.vue";
+
 const props = defineProps({
-  modelValue: {
-    type: [Array, String],
-    required: true
-  },
   options: {
     type: Object,
-    required: true
+    default: () => {},
+  },
+  name: {
+    type: String,
+    required: true,
   },
   type: {
     type: String,
-    default: 'checkbox'
+    default: "checkbox",
+    validator: (value) => ["checkbox", "radio", "switch"].includes(value),
   },
-  label: {
+  componentClass: {
     type: String,
-    default: ''
-  }
-})
+    default: null,
+  },
+  isColumn: Boolean,
+  modelValue: {
+    type: [Array, String, Number, Boolean],
+    default: null,
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"]);
 
-const isChecked = (key) => {
-  if (Array.isArray(props.modelValue)) {
-    return props.modelValue.includes(key)
-  }
-  return props.modelValue === key
-}
-
-const updateValue = (key) => {
-  if (props.type === 'radio') {
-    emit('update:modelValue', key)
-  } else {
-    const newValue = Array.isArray(props.modelValue) ? [...props.modelValue] : []
-    const index = newValue.indexOf(key)
-    if (index === -1) {
-      newValue.push(key)
-    } else {
-      newValue.splice(index, 1)
-    }
-    emit('update:modelValue', newValue)
-  }
-}
+const computedValue = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit("update:modelValue", value);
+  },
+});
 </script>
+
+<template>
+  <div
+    class="flex justify-start flex-wrap -mb-3"
+    :class="{ 'flex-col': isColumn }"
+  >
+    <FormCheckRadio
+      v-for="(value, key) in options"
+      :key="key"
+      v-model="computedValue"
+      :type="type"
+      :name="name"
+      :input-value="key"
+      :label="value"
+      :class="componentClass"
+      class="mr-6 mb-3 last:mr-0"
+    />
+  </div>
+</template>

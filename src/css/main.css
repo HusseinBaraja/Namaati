@@ -1,3 +1,6 @@
+@import '_checkbox-radio-switch.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+

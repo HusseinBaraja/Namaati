@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import sTitleButton from "@/components/BaseComponents/SectionTitleLineWithButton.vue";
 import CardBox from "@/components/BaseComponents/BaseCardBox.vue";
 import fField from "@/components/BaseComponents/FormField.vue";
@@ -22,8 +22,8 @@ const selectOptions = [
 ];
 
 const form = reactive({
-  name: "John Doe",
-  email: "john.doe@example.com",
+  name: "",
+  email: "",
   phone: "",
   department: selectOptions[0],
   subject: "",
@@ -45,127 +45,137 @@ const submit = () => {
   // Handle form submission
 };
 
+const formStatusWithHeader = ref(true);
+
 const formStatusCurrent = ref(0);
+
 const formStatusOptions = ["info", "success", "danger", "warning"];
 
 const formStatusSubmit = () => {
-  formStatusCurrent.value =
-    (formStatusCurrent.value + 1) % formStatusOptions.length;
+  formStatusCurrent.value = formStatusOptions[formStatusCurrent.value + 1]
+    ? formStatusCurrent.value + 1
+    : 0;
 };
-
-const notificationColorClass = computed(() => {
-  const colors = {
-    info: "bg-blue-100 text-blue-800",
-    success: "bg-green-100 text-green-800",
-    danger: "bg-red-100 text-red-800",
-    warning: "bg-yellow-100 text-yellow-800",
-  };
-  return colors[formStatusOptions[formStatusCurrent.value]];
-});
 </script>
 
 <template>
   <AuthLayout>
     <sContainer>
-      <div class="p-6 xl:max-w-6xl xl:mx-auto">
-        <sTitleButton
-          :icon="icons.file"
-          title="Forms example"
-          color="blue"
-          :button-icon="icons.excavator"
-        />
+      <sTitleButton
+        :icon="icons.file"
+        title="Forms example"
+        color="blue"
+        :button-icon="icons.excavator"
+      />
 
-        <CardBox>
-          <form @submit.prevent="submit" class="p-6">
-            <fField label="Grouped with icons">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <fControl
-                  v-model="form.name"
-                  :icon="icons.user"
-                  placeholder="Name"
-                />
-                <fControl
-                  v-model="form.email"
-                  type="email"
-                  :icon="icons.mail"
-                  placeholder="Email"
-                />
-              </div>
-            </fField>
+      <CardBox form @submit.prevent="submit" class="p-6">
+        <fField label="Grouped with icons">
+          <fControl v-model="form.name" :icon="icons.user" placeholder="Name" />
+          <fControl
+            v-model="form.email"
+            type="email"
+            :icon="icons.mail"
+            placeholder="Email"
+          />
+        </fField>
 
-            <fField label="With help line" help="Do not enter the leading zero">
-              <fControl
-                v-model="form.phone"
-                type="tel"
-                placeholder="Your phone number"
-              />
-            </fField>
+        <fField label="With help line" help="Do not enter the leading zero">
+          <fControl
+            v-model="form.phone"
+            type="tel"
+            placeholder="Your phone number"
+          />
+        </fField>
 
-            <fField label="Dropdown">
-              <fControl v-model="form.department" :options="selectOptions" />
-            </fField>
+        <fField label="Dropdown">
+          <fControl v-model="form.department" :options="selectOptions" />
+        </fField>
 
-            <Divider />
+        <Divider />
 
-            <fField label="Question" help="Your question. Max 255 characters">
-              <fControl
-                v-model="form.question"
-                type="textarea"
-                placeholder="Explain how we can help you"
-              />
-            </fField>
+        <fField label="Question" help="Your question. Max 255 characters">
+          <fControl
+            v-model="form.question"
+            type="textarea"
+            placeholder="Explain how we can help you"
+          />
+        </fField>
 
-            <Buttons>
-              <Button color="info" type="submit" label="Submit" />
-              <Button color="info" label="Options" outline />
-            </Buttons>
-          </form>
-        </CardBox>
+        <Buttons>
+          <Button color="info" type="submit" label="Submit" />
+          <Button color="info" label="Options" outline />
+        </Buttons>
+      </CardBox>
+    </sContainer>
 
-        <sTitle>Custom elements</sTitle>
+    <sTitle>Custom elements</sTitle>
 
-        <CardBox>
+    <sContainer>
+      <CardBox>
+        <fField label="Checkbox">
           <fRadioGroup
             v-model="customElementsForm.checkbox"
             :options="checkboxOptions"
+            name="sample-checkbox"
             type="checkbox"
           />
-          <Divider />
+        </fField>
+
+        <Divider />
+
+        <fField label="Radio">
           <fRadioGroup
             v-model="customElementsForm.radio"
             :options="radioOptions"
+            name="sample-radio"
             type="radio"
           />
-          <Divider />
+        </fField>
+
+        <Divider />
+
+        <fField label="Switch">
           <fRadioGroup
             v-model="customElementsForm.switch"
             :options="switchOptions"
+            name="sample-switch"
             type="switch"
           />
-          <Divider />
-          <fFilePicker v-model="customElementsForm.file" label="Upload" />
-        </CardBox>
+        </fField>
 
-        <sTitle>Form with status example</sTitle>
+        <Divider />
+        <fFilePicker v-model="customElementsForm.file" label="Upload" />
+      </CardBox>
+    </sContainer>
 
-        <CardBox class="md:w-7/12 lg:w-5/12 xl:w-4/12 mx-auto">
-          <NotificationBarInCard :color="notificationColorClass">
-            <b class="capitalize">{{ formStatusOptions[formStatusCurrent] }}</b>
-            state
-          </NotificationBarInCard>
-          <form @submit.prevent="formStatusSubmit" class="p-6">
-            <fField label="Fields">
-              <fControl
-                v-model="form.name"
-                :icon="icons.user"
-                placeholder="Name"
-                help="Your full name"
-              />
-            </fField>
-            <Button type="submit" color="blue" label="Trigger" />
-          </form>
-        </CardBox>
-      </div>
+    <sTitle>Form with status example</sTitle>
+
+    <sContainer>
+      <CardBox
+        class="md:w-7/12 lg:w-5/12 xl:w-4/12 mx-auto"
+        @submit.prevent="formStatusSubmit"
+      >
+        <NotificationBarInCard
+          :color="formStatusOptions[formStatusCurrent]"
+          :is-placed-with-header="formStatusWithHeader"
+        >
+          <span
+            ><b class="capitalize">{{
+              formStatusOptions[formStatusCurrent]
+            }}</b>
+            state</span
+          >
+        </NotificationBarInCard>
+        <fField label="Fields">
+          <fControl
+            v-model="form.name"
+            :icon="icons.user"
+            placeholder="Name"
+            help="Your full name"
+          />
+        </fField>
+        <Button type="submit" color="blue" label="Trigger" />
+      </CardBox>
     </sContainer>
   </AuthLayout>
 </template>

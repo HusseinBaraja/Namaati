@@ -5,6 +5,9 @@ export default {
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
       },
+      zIndex: {
+        "-1": "-1",
+      },
     },
   },
   variants: {
