@@ -1,19 +1,19 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
-import SectionTitleLineWithButton from "@/components/BaseComponents/SectionTitleLineWithButton.vue";
+import sTitleButton from "@/components/BaseComponents/SectionTitleLineWithButton.vue";
 import CardBox from "@/components/BaseComponents/BaseCardBox.vue";
-import FormField from "@/components/BaseComponents/FormField.vue";
-import FormControl from "@/components/BaseComponents/FormControl.vue";
-import BaseDivider from "@/components/BaseComponents/BaseDivider.vue";
-import BaseButton from "@/components/BaseComponents/BaseButton.vue";
-import BaseButtons from "@/components/BaseComponents/BaseButtons.vue";
-import SectionTitle from "@/components/BaseComponents/SectionTitle.vue";
-import FormCheckRadioGroup from "@/components/BaseComponents/FormCheckRadioGroup.vue";
-import FormFilePicker from "@/components/BaseComponents/FormFilePicker.vue";
+import fField from "@/components/BaseComponents/FormField.vue";
+import fControl from "@/components/BaseComponents/FormControl.vue";
+import Divider from "@/components/BaseComponents/BaseDivider.vue";
+import Button from "@/components/BaseComponents/BaseButton.vue";
+import Buttons from "@/components/BaseComponents/BaseButtons.vue";
+import sTitle from "@/components/BaseComponents/SectionTitle.vue";
+import fRadioGroup from "@/components/BaseComponents/FormCheckRadioGroup.vue";
+import fFilePicker from "@/components/BaseComponents/FormFilePicker.vue";
 import NotificationBarInCard from "@/components/BaseComponents/NotificationBarInCard.vue";
 import { icons } from "@/assets/icons";
-import LayoutAuthenticated from "@/components/LayoutAuthenticated.vue";
-import SectionContainer from "@/components/SectionContainer.vue";
+import AuthLayout from "@/components/LayoutAuthenticated.vue";
+import sContainer from "@/components/SectionContainer.vue";
 
 const selectOptions = [
   { id: 1, label: "Business development" },
@@ -65,10 +65,10 @@ const notificationColorClass = computed(() => {
 </script>
 
 <template>
-  <LayoutAuthenticated>
-    <SectionContainer>
+  <AuthLayout>
+    <sContainer>
       <div class="p-6 xl:max-w-6xl xl:mx-auto">
-        <SectionTitleLineWithButton
+        <sTitleButton
           :icon="icons.file"
           title="Forms example"
           color="blue"
@@ -77,82 +77,76 @@ const notificationColorClass = computed(() => {
 
         <CardBox>
           <form @submit.prevent="submit" class="p-6">
-            <FormField label="Grouped with icons">
+            <fField label="Grouped with icons">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormControl
+                <fControl
                   v-model="form.name"
                   :icon="icons.user"
                   placeholder="Name"
                 />
-                <FormControl
+                <fControl
                   v-model="form.email"
                   type="email"
                   :icon="icons.mail"
                   placeholder="Email"
                 />
               </div>
-            </FormField>
+            </fField>
 
-            <FormField
-              label="With help line"
-              help="Do not enter the leading zero"
-            >
-              <FormControl
+            <fField label="With help line" help="Do not enter the leading zero">
+              <fControl
                 v-model="form.phone"
                 type="tel"
                 placeholder="Your phone number"
               />
-            </FormField>
+            </fField>
 
-            <FormField label="Dropdown">
-              <FormControl v-model="form.department" :options="selectOptions" />
-            </FormField>
+            <fField label="Dropdown">
+              <fControl v-model="form.department" :options="selectOptions" />
+            </fField>
 
-            <BaseDivider />
+            <Divider />
 
-            <FormField
-              label="Question"
-              help="Your question. Max 255 characters"
-            >
-              <FormControl
+            <fField label="Question" help="Your question. Max 255 characters">
+              <fControl
                 v-model="form.question"
                 type="textarea"
                 placeholder="Explain how we can help you"
               />
-            </FormField>
+            </fField>
 
-            <BaseButtons>
-              <BaseButton color="info" type="submit" label="Submit" />
-              <BaseButton color="info" label="Options" outline />
-            </BaseButtons>
+            <Buttons>
+              <Button color="info" type="submit" label="Submit" />
+              <Button color="info" label="Options" outline />
+            </Buttons>
           </form>
         </CardBox>
 
-        <SectionTitle>Custom elements</SectionTitle>
+        <sTitle>Custom elements</sTitle>
 
         <CardBox>
-          <FormCheckRadioGroup
+          <fRadioGroup
             v-model="customElementsForm.checkbox"
             :options="checkboxOptions"
             type="checkbox"
           />
-          <BaseDivider />
-          <FormCheckRadioGroup
+          <Divider />
+          <fRadioGroup
             v-model="customElementsForm.radio"
             :options="radioOptions"
             type="radio"
           />
-          <BaseDivider />
-          <FormCheckRadioGroup
+          <Divider />
+          <fRadioGroup
             v-model="customElementsForm.switch"
             :options="switchOptions"
             type="switch"
           />
-          <BaseDivider />
-          <FormFilePicker v-model="customElementsForm.file" label="Upload" />
+          <Divider />
+          <fFilePicker v-model="customElementsForm.file" label="Upload" />
         </CardBox>
 
-        <SectionTitle>Form with status example</SectionTitle>
+        <sTitle>Form with status example</sTitle>
 
         <CardBox class="md:w-7/12 lg:w-5/12 xl:w-4/12 mx-auto">
           <NotificationBarInCard :color="notificationColorClass">
@@ -160,18 +154,18 @@ const notificationColorClass = computed(() => {
             state
           </NotificationBarInCard>
           <form @submit.prevent="formStatusSubmit" class="p-6">
-            <FormField label="Fields">
-              <FormControl
+            <fField label="Fields">
+              <fControl
                 v-model="form.name"
                 :icon="icons.user"
                 placeholder="Name"
                 help="Your full name"
               />
-            </FormField>
-            <BaseButton type="submit" color="blue" label="Trigger" />
+            </fField>
+            <Button type="submit" color="blue" label="Trigger" />
           </form>
         </CardBox>
       </div>
-    </SectionContainer>
-  </LayoutAuthenticated>
+    </sContainer>
+  </AuthLayout>
 </template>

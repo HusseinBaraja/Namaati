@@ -3,7 +3,7 @@ import { mdiCog } from "@mdi/js";
 import { useSlots, computed } from "vue";
 import BaseIcon from "@/components/Images/BaseIcon.vue";
 import BaseButton from "@/components/BaseComponents/BaseButton.vue";
-import IconRounded from "@/components/Images/IconRounded.vue";
+import IconRounded from "@/components/fragments/IconRounded.vue";
 
 const props = defineProps({
   icon: {
