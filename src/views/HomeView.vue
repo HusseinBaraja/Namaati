@@ -159,12 +159,10 @@ const formStatusSubmit = () => {
           :color="formStatusOptions[formStatusCurrent]"
           :is-placed-with-header="formStatusWithHeader"
         >
-          <span
-            ><b class="capitalize">{{
-              formStatusOptions[formStatusCurrent]
-            }}</b>
-            state</span
-          >
+          <span>
+            <b class="capitalize">{{ formStatusOptions[formStatusCurrent] }}</b>
+            state
+          </span>
         </NotificationBarInCard>
         <fField label="Fields">
           <fControl
@@ -174,7 +172,9 @@ const formStatusSubmit = () => {
             help="Your full name"
           />
         </fField>
-        <Button type="submit" color="blue" label="Trigger" />
+        <template #footer>
+          <Button label="Trigger" type="submit" color="info" />
+        </template>
       </CardBox>
     </sContainer>
   </AuthLayout>
