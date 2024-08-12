@@ -1,10 +1,10 @@
-"
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import logoImage from "@/assets/img/logo.png";
 import { icons } from "@/assets/icons.js";
 import TypewriterEffect from "@/components/Animation/TypewriterEffect.vue";
+import Icon from "@/components/fragments/Icon.vue";
 
 const router = useRouter();
 
@@ -194,14 +194,7 @@ onMounted(() => {
                     drawerProps.railWidth === 64 && !menuItemProps.isSettling,
                 }"
               >
-                <svg
-                  class="text-gray-500 w-full h-full"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path :d="item.props.prependIcon" />
-                </svg>
+                <Icon :icon="item.props.prependIcon" />
               </div>
               <TypewriterEffect
                 v-if="

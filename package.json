@@ -11,7 +11,9 @@
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "@vectopus/atlas-icons-vue": "^0.0.5",
+    "tailwindcss-rtl": "^0.9.0",
     "vue": "^3.4.29",
+    "vue-i18n": "^10.0.0-beta.5",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
