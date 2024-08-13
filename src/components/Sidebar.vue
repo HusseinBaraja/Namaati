@@ -1,4 +1,3 @@
-"
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -11,10 +10,10 @@ import Icon from "@/components/fragments/Icon.vue";
 const router = useRouter();
 const { t, locale } = useI18n();
 
-const items = [
-  { type: "subheader", title: t("apps") },
+const items = computed(() => [
+  { type: "subheader", title: t("sidebar.apps") },
   {
-    title: t("Home"),
+    title: t("sidebar.home"),
     props: {
       prependIcon: icons.home,
       link: true,
@@ -24,7 +23,7 @@ const items = [
     value: "/",
   },
   {
-    title: t("Register"),
+    title: t("sidebar.register"),
     props: {
       prependIcon: icons.register,
       link: true,
@@ -34,7 +33,7 @@ const items = [
     value: "/register",
   },
   // ... (other menu items)
-];
+]);
 
 const drawerProps = reactive({
   rail: false,
@@ -47,12 +46,12 @@ const initialLoad = ref(true);
 
 const subheaderProps = reactive({
   transitionDuration: 10,
-  transitionDelay: 300,
+  transitionDelay: 0,
   isSettling: false,
 });
 
 const menuItemProps = reactive({
-  transitionDuration: 300,
+  transitionDuration: 100,
   transitionDelay: 0,
   isSettling: false,
 });
@@ -71,14 +70,6 @@ const handleDrawerWidth = () => {
       : isRTL.value
         ? icons.arrowRight
         : icons.arrowLeft;
-
-  // drawerProps.railWidth === 256
-  //   ? isRTL.value
-  //     ? icons.arrowLeft
-  //     : icons.arrowRight
-  //   : isRTL.value
-  //     ? icons.arrowRight
-  //     : icons.arrowLeft;
 
   // Use setTimeout to change the railWidth after a short delay
   setTimeout(() => {
@@ -113,7 +104,7 @@ const handleDrawerWidth = () => {
   );
 };
 
-const menus = computed(() => items); // Always return all items
+const menus = computed(() => items.value); // Always return all items
 
 const isActiveLink = computed(() => {
   const currentPath = router.currentRoute.value.path;
@@ -121,16 +112,52 @@ const isActiveLink = computed(() => {
 });
 
 const isRTL = computed(() => locale.value === "ar");
+const emit = defineEmits(["changeLanguage"]);
 
 const toggleLanguage = () => {
   locale.value = locale.value === "en" ? "ar" : "en";
   document.documentElement.dir = isRTL.value ? "rtl" : "ltr";
+  emit("changeLanguage", locale.value);
 };
 
 onMounted(() => {
   setTimeout(() => {
     initialLoad.value = false;
   }, 1000);
+});
+
+// LTR icon animation settings
+const ltrIconSettings = reactive({
+  expandedPosition: "left-3",
+  collapsedPosition: "left-1/3",
+  collapsedTransform: "-translate-x-1/2",
+  transitionDuration: 300,
+  transitionTimingFunction: "ease-in-out",
+});
+
+// RTL icon animation settings
+const rtlIconSettings = reactive({
+  expandedPosition: "right-3", // Starting position when sidebar is expanded
+  collapsedPosition: "right-1/3", // Ending position when sidebar is collapsed
+  collapsedTransform: "translate-x-1/2", // Transform for collapsed state
+  transitionDuration: 300, // in milliseconds
+  transitionTimingFunction: "ease-in-out",
+});
+
+// LTR subheader settings
+const ltrSubheaderSettings = reactive({
+  expandedPosition: "-40%",
+  collapsedPosition: "0%",
+  transitionDuration: 300,
+  transitionTimingFunction: "ease-in-out",
+});
+
+// RTL subheader settings
+const rtlSubheaderSettings = reactive({
+  expandedPosition: "39%",
+  collapsedPosition: "0%",
+  transitionDuration: 300,
+  transitionTimingFunction: "ease-in-out",
 });
 </script>
 
@@ -140,7 +167,7 @@ onMounted(() => {
       'bg-gray-100 border-gray-200 transition-all duration-300 ease-in-out h-screen relative flex flex-col',
       {
         'w-64': drawerProps.railWidth === 256,
-        'w-28': drawerProps.railWidth === 64,
+        'w-24': drawerProps.railWidth === 64,
       },
       isRTL ? 'border-l' : 'border-r',
     ]"
@@ -167,24 +194,35 @@ onMounted(() => {
         <template v-for="(item, index) in menus" :key="index">
           <div
             v-if="item.type === 'subheader'"
-            class="px-3 py-2 text-xs font-medium text-gray-500 uppercase transition-all"
-            :style="{
-              transitionDuration: `${subheaderProps.transitionDuration}ms`,
-              transitionDelay: `${subheaderProps.transitionDelay}ms`,
-            }"
-            :class="{
-              'text-center':
-                drawerProps.railWidth === 64 && !subheaderProps.isSettling,
-              'text-start':
-                drawerProps.railWidth === 256 || subheaderProps.isSettling,
-            }"
+            class="py-2 text-xs font-medium text-gray-500 uppercase relative h-6 overflow-hidden"
           >
-            <TypewriterEffect
-              :text="item.title"
-              :delay="50"
-              :isVisible="true"
-              :initialAnimation="initialLoad"
-            />
+            <div
+              class="absolute w-full text-center transition-all whitespace-nowrap"
+              :style="{
+                transitionDuration: `${isRTL ? rtlSubheaderSettings.transitionDuration : ltrSubheaderSettings.transitionDuration}ms`,
+                transitionTimingFunction: isRTL
+                  ? rtlSubheaderSettings.transitionTimingFunction
+                  : ltrSubheaderSettings.transitionTimingFunction,
+                transform: `translateX(${
+                  drawerProps.railWidth === 256 || subheaderProps.isSettling
+                    ? isRTL
+                      ? rtlSubheaderSettings.expandedPosition
+                      : ltrSubheaderSettings.expandedPosition
+                    : isRTL
+                      ? rtlSubheaderSettings.collapsedPosition
+                      : ltrSubheaderSettings.collapsedPosition
+                })`,
+                right: isRTL ? '0' : 'auto',
+                left: isRTL ? 'auto' : '0',
+              }"
+            >
+              <TypewriterEffect
+                :text="item.title"
+                :delay="50"
+                :isVisible="true"
+                :initialAnimation="initialLoad"
+              />
+            </div>
           </div>
           <div
             v-else
@@ -201,15 +239,31 @@ onMounted(() => {
                 isActiveLink(item.props.to)
                   ? 'bg-gray-300 text-gray-900'
                   : 'text-gray-600 hover:bg-gray-200 hover:text-gray-900',
+                isRTL ? 'flex-row-reverse' : '',
               ]"
             >
               <div
-                class="flex-shrink-0 w-6 h-6 transition-all duration-300 ease-in-out"
+                class="flex-shrink-0 w-6 h-6"
                 :class="{
-                  'absolute start-3':
+                  absolute: true,
+                  [isRTL
+                    ? rtlIconSettings.expandedPosition
+                    : ltrIconSettings.expandedPosition]:
                     drawerProps.railWidth === 256 || menuItemProps.isSettling,
-                  'relative left-1/2 transform -translate-x-1/2':
+                  [isRTL
+                    ? rtlIconSettings.collapsedPosition
+                    : ltrIconSettings.collapsedPosition]:
                     drawerProps.railWidth === 64 && !menuItemProps.isSettling,
+                }"
+                :style="{
+                  transition: `all ${isRTL ? rtlIconSettings.transitionDuration : ltrIconSettings.transitionDuration}ms
+                    ${isRTL ? rtlIconSettings.transitionTimingFunction : ltrIconSettings.transitionTimingFunction}`,
+                  transform:
+                    drawerProps.railWidth === 64 && !menuItemProps.isSettling
+                      ? isRTL
+                        ? rtlIconSettings.collapsedTransform
+                        : ltrIconSettings.collapsedTransform
+                      : 'none',
                 }"
               >
                 <Icon :icon="item.props.prependIcon" />
@@ -218,8 +272,11 @@ onMounted(() => {
                 v-if="
                   drawerProps.railWidth === 256 || drawerProps.railWidth === 64
                 "
-                class="ms-9 transition-all duration-300 ease-in-out absolute start-2"
-                :class="{ 'opacity-0': drawerProps.railWidth === 64 }"
+                :class="[
+                  'transition-all duration-300 ease-in-out absolute',
+                  { 'opacity-0': drawerProps.railWidth === 64 },
+                  isRTL ? 'right-11' : 'left-11',
+                ]"
                 :text="item.title"
                 :delay="50"
                 :isVisible="drawerProps.railWidth === 256"
@@ -237,7 +294,7 @@ onMounted(() => {
         @click="toggleLanguage"
         class="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300"
       >
-        {{ isRTL ? "English" : "العربية" }}
+        {{ isRTL ? "En" : "ع" }}
       </button>
     </div>
 

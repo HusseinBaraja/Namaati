@@ -1,5 +1,6 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import sTitleButton from "@/components/BaseComponents/SectionTitleLineWithButton.vue";
 import CardBox from "@/components/BaseComponents/BaseCardBox.vue";
 import fField from "@/components/BaseComponents/FormField.vue";
@@ -15,17 +16,19 @@ import { icons } from "@/assets/icons";
 import AuthLayout from "@/components/LayoutAuthenticated.vue";
 import sContainer from "@/components/SectionContainer.vue";
 
-const selectOptions = [
-  { id: 1, label: "Business development" },
-  { id: 2, label: "Marketing" },
-  { id: 3, label: "Sales" },
-];
+const { t, locale } = useI18n();
+
+const selectOptions = computed(() => [
+  { id: 1, label: t("departments.businessDevelopment") },
+  { id: 2, label: t("departments.marketing") },
+  { id: 3, label: t("departments.sales") },
+]);
 
 const form = reactive({
   name: "",
   email: "",
   phone: "",
-  department: selectOptions[0],
+  department: computed(() => selectOptions.value[0]),
   subject: "",
   question: "",
 });
@@ -56,63 +59,71 @@ const formStatusSubmit = () => {
     ? formStatusCurrent.value + 1
     : 0;
 };
+
+const handleLanguageChange = (newLocale) => {
+  locale.value = newLocale;
+};
 </script>
 
 <template>
-  <AuthLayout>
+  <AuthLayout @changeLanguage="handleLanguageChange">
     <sContainer>
       <sTitleButton
         :icon="icons.file"
-        title="Forms example"
+        :title="t('titles.formsExample')"
         color="blue"
         :button-icon="icons.excavator"
       />
 
       <CardBox form @submit.prevent="submit" class="p-6">
-        <fField label="Grouped with icons">
-          <fControl v-model="form.name" :icon="icons.user" placeholder="Name" />
+        <fField :label="t('forms.name')">
+          <fControl
+            v-model="form.name"
+            :icon="icons.user"
+            :placeholder="t('placeholders.name')"
+          />
           <fControl
             v-model="form.email"
             type="email"
             :icon="icons.mail"
-            placeholder="Email"
+            :placeholder="t('placeholders.email')"
           />
         </fField>
 
-        <fField label="With help line" help="Do not enter the leading zero">
+        <fField :label="t('forms.phone')" :help="t('help.phone')">
           <fControl
             v-model="form.phone"
             type="tel"
-            placeholder="Your phone number"
+            :placeholder="t('placeholders.phone')"
           />
         </fField>
 
-        <fField label="Dropdown">
+        <fField :label="t('forms.department')">
           <fControl v-model="form.department" :options="selectOptions" />
         </fField>
 
         <Divider />
 
-        <fField label="Question" help="Your question. Max 255 characters">
+        <fField :label="t('forms.question')" :help="t('help.question')">
           <fControl
             v-model="form.question"
             type="textarea"
-            placeholder="Explain how we can help you"
+            :placeholder="t('placeholders.question')"
           />
         </fField>
 
         <Buttons>
-          <Button color="info" type="submit" label="Submit" />
-          <Button color="info" label="Options" outline />
+          <Button color="info" type="submit" :label="t('forms.submit')" />
+          <Button color="info" :label="t('forms.options')" outline />
         </Buttons>
       </CardBox>
     </sContainer>
 
-    <sTitle>Custom elements</sTitle>
+    <sTitle>{{ t("titles.customElements") }}</sTitle>
 
     <sContainer>
       <CardBox>
-        <fField label="Checkbox">
+        <fField :label="t('forms.checkbox')">
           <fRadioGroup
             v-model="customElementsForm.checkbox"
             :options="checkboxOptions"
@@ -123,7 +134,7 @@ const formStatusSubmit = () => {
 
         <Divider />
 
-        <fField label="Radio">
+        <fField :label="t('forms.radio')">
           <fRadioGroup
             v-model="customElementsForm.radio"
             :options="radioOptions"
@@ -134,7 +145,7 @@ const formStatusSubmit = () => {
 
         <Divider />
 
-        <fField label="Switch">
+        <fField :label="t('forms.switch')">
           <fRadioGroup
             v-model="customElementsForm.switch"
             :options="switchOptions"
@@ -144,11 +155,14 @@ const formStatusSubmit = () => {
         </fField>
 
         <Divider />
-        <fFilePicker v-model="customElementsForm.file" label="Upload" />
+        <fFilePicker
+          v-model="customElementsForm.file"
+          :label="t('forms.upload')"
+        />
       </CardBox>
     </sContainer>
 
-    <sTitle>Form with status example</sTitle>
+    <sTitle>{{ t("titles.formStatus") }}</sTitle>
 
     <sContainer>
       <CardBox
@@ -164,16 +178,16 @@ const formStatusSubmit = () => {
             state
           </span>
         </NotificationBarInCard>
-        <fField label="Fields">
+        <fField :label="t('forms.name')">
           <fControl
             v-model="form.name"
             :icon="icons.user"
-            placeholder="Name"
-            help="Your full name"
+            :placeholder="t('placeholders.name')"
+            :help="t('help.name')"
           />
         </fField>
         <template #footer>
-          <Button label="Trigger" type="submit" color="info" />
+          <Button :label="t('forms.trigger')" type="submit" color="info" />
         </template>
       </CardBox>
     </sContainer>

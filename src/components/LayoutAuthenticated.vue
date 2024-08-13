@@ -1,11 +1,17 @@
 <script setup>
 import Sidebar from "@/components/Sidebar.vue";
 import FooterBar from "@/components/FooterBar.vue";
+
+const emit = defineEmits(["changeLanguage"]);
+
+const handleLanguageChange = (newLocale) => {
+  emit("changeLanguage", newLocale);
+};
 </script>
 
 <template>
   <div class="flex h-screen bg-gray-100">
-    <Sidebar />
+    <Sidebar @changeLanguage="handleLanguageChange" />
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Top Navigation Bar Here-->

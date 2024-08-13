@@ -1,0 +1,86 @@
+export default {
+  en: {
+    sidebar: {
+      apps: "Apps",
+      home: "Home",
+      register: "Register",
+    },
+    forms: {
+      name: "Name",
+      email: "Email",
+      phone: "Phone",
+      department: "Department",
+      subject: "Subject",
+      question: "Question",
+      submit: "Submit",
+      options: "Options",
+      checkbox: "Checkbox",
+      radio: "Radio",
+      switch: "Switch",
+      upload: "Upload",
+      trigger: "Trigger",
+    },
+    departments: {
+      businessDevelopment: "Business development",
+      marketing: "Marketing",
+      sales: "Sales",
+    },
+    placeholders: {
+      name: "Your name",
+      email: "Your email",
+      phone: "Your phone number",
+      question: "Explain how we can help you",
+    },
+    help: {
+      phone: "Do not enter the leading zero",
+      question: "Your question. Max 255 characters",
+    },
+    titles: {
+      formsExample: "Forms example",
+      customElements: "Custom elements",
+      formStatus: "Form with status example",
+    },
+  },
+  ar: {
+    sidebar: {
+      apps: "التطبيقات",
+      home: "الرئيسية",
+      register: "التسجيل",
+    },
+    forms: {
+      name: "الاسم",
+      email: "البريد الإلكتروني",
+      phone: "الهاتف",
+      department: "القسم",
+      subject: "الموضوع",
+      question: "السؤال",
+      submit: "إرسال",
+      options: "خيارات",
+      checkbox: "خانة اختيار",
+      radio: "زر راديو",
+      switch: "مفتاح التبديل",
+      upload: "تحميل",
+      trigger: "تفعيل",
+    },
+    departments: {
+      businessDevelopment: "تطوير الأعمال",
+      marketing: "التسويق",
+      sales: "المبيعات",
+    },
+    placeholders: {
+      name: "اسمك",
+      email: "بريدك الإلكتروني",
+      phone: "رقم هاتفك",
+      question: "اشرح كيف يمكننا مساعدتك",
+    },
+    help: {
+      phone: "لا تدخل الصفر الأول",
+      question: "سؤالك. الحد الأقصى 255 حرفًا",
+    },
+    titles: {
+      formsExample: "مثال على النماذج",
+      customElements: "عناصر مخصصة",
+      formStatus: "مثال على نموذج مع الحالة",
+    },
+  },
+};
