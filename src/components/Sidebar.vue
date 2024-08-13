@@ -1,14 +1,15 @@
+"
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import logoImage from "@/assets/img/logo.png";
 import { icons } from "@/assets/icons.js";
 import TypewriterEffect from "@/components/Animation/TypewriterEffect.vue";
 import Icon from "@/components/fragments/Icon.vue";
 
 const router = useRouter();
-
-const t = (key) => key;
+const { t, locale } = useI18n();
 
 const items = [
   { type: "subheader", title: t("apps") },
@@ -63,7 +64,21 @@ const handleDrawerWidth = () => {
 
   drawerProps.rail = !drawerProps.rail;
   drawerProps.icon =
-    drawerProps.railWidth === 256 ? icons.arrowRight : icons.arrowLeft;
+    drawerProps.railWidth === 256
+      ? isRTL.value
+        ? icons.arrowLeft
+        : icons.arrowRight
+      : isRTL.value
+        ? icons.arrowRight
+        : icons.arrowLeft;
+
+  // drawerProps.railWidth === 256
+  //   ? isRTL.value
+  //     ? icons.arrowLeft
+  //     : icons.arrowRight
+  //   : isRTL.value
+  //     ? icons.arrowRight
+  //     : icons.arrowLeft;
 
   // Use setTimeout to change the railWidth after a short delay
   setTimeout(() => {
@@ -105,6 +120,13 @@ const isActiveLink = computed(() => {
   return (path) => currentPath === path;
 });
 
+const isRTL = computed(() => locale.value === "ar");
+
+const toggleLanguage = () => {
+  locale.value = locale.value === "en" ? "ar" : "en";
+  document.documentElement.dir = isRTL.value ? "rtl" : "ltr";
+};
+
 onMounted(() => {
   setTimeout(() => {
     initialLoad.value = false;
@@ -115,37 +137,33 @@ onMounted(() => {
 <template>
   <nav
     :class="[
-      'bg-gray-100 border-r border-gray-200 transition-all duration-300 ease-in-out h-screen relative',
+      'bg-gray-100 border-gray-200 transition-all duration-300 ease-in-out h-screen relative flex flex-col',
       {
         'w-64': drawerProps.railWidth === 256,
-        'w-28': drawerProps.railWidth === 64, // Changed from w-28 to w-16 for tighter layout
+        'w-28': drawerProps.railWidth === 64,
       },
+      isRTL ? 'border-l' : 'border-r',
     ]"
+    :dir="isRTL ? 'rtl' : 'ltr'"
   >
-    <div class="mx-auto px-2 sm:px-4 lg:px-6">
-      <div class="flex h-20 items-center justify-between">
-        <div
-          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
-        >
-          <!-- Logo -->
-          <div class="flex flex-shrink-0 items-center">
-            <img :src="logoImage" class="h-16 w-16" alt="Logo" />
-            <TypewriterEffect
-              v-if="
-                drawerProps.railWidth === 256 || drawerProps.railWidth === 64
-              "
-              class="hidden sm:block text-gray-800 text-xl font-bold ml-2"
-              :text="'Namaati'"
-              :delay="30"
-              :isVisible="drawerProps.railWidth === 256"
-              :initialAnimation="initialLoad"
-            />
-          </div>
-        </div>
+    <!-- Logo Section -->
+    <div class="p-4">
+      <div class="flex items-center">
+        <img :src="logoImage" class="h-16 w-16" alt="Logo" />
+        <TypewriterEffect
+          v-if="drawerProps.railWidth === 256 || drawerProps.railWidth === 64"
+          class="hidden sm:block text-gray-800 text-xl font-bold ms-2"
+          :text="'Namaati'"
+          :delay="30"
+          :isVisible="drawerProps.railWidth === 256"
+          :initialAnimation="initialLoad"
+        />
       </div>
     </div>
-    <div class="px-2 sm:px-4 lg:px-6 mt-4">
-      <div class="flex flex-col space-y-1">
+
+    <!-- Menu Items -->
+    <div class="flex-grow overflow-y-auto">
+      <div class="px-2 py-4">
         <template v-for="(item, index) in menus" :key="index">
           <div
             v-if="item.type === 'subheader'"
@@ -157,7 +175,7 @@ onMounted(() => {
             :class="{
               'text-center':
                 drawerProps.railWidth === 64 && !subheaderProps.isSettling,
-              'text-left':
+              'text-start':
                 drawerProps.railWidth === 256 || subheaderProps.isSettling,
             }"
           >
@@ -188,7 +206,7 @@ onMounted(() => {
               <div
                 class="flex-shrink-0 w-6 h-6 transition-all duration-300 ease-in-out"
                 :class="{
-                  'absolute left-3':
+                  'absolute start-3':
                     drawerProps.railWidth === 256 || menuItemProps.isSettling,
                   'relative left-1/2 transform -translate-x-1/2':
                     drawerProps.railWidth === 64 && !menuItemProps.isSettling,
@@ -200,7 +218,7 @@ onMounted(() => {
                 v-if="
                   drawerProps.railWidth === 256 || drawerProps.railWidth === 64
                 "
-                class="ml-9 transition-all duration-300 ease-in-out absolute left-2"
+                class="ms-9 transition-all duration-300 ease-in-out absolute start-2"
                 :class="{ 'opacity-0': drawerProps.railWidth === 64 }"
                 :text="item.title"
                 :delay="50"
@@ -212,12 +230,28 @@ onMounted(() => {
         </template>
       </div>
     </div>
+
+    <!-- Language toggle button -->
+    <div class="p-4 mt-auto">
+      <button
+        @click="toggleLanguage"
+        class="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300"
+      >
+        {{ isRTL ? "English" : "العربية" }}
+      </button>
+    </div>
+
+    <!-- Drawer toggle button -->
     <button
       @click="handleDrawerWidth"
       class="absolute top-1/2 transform -translate-y-1/2 bg-white rounded-full w-14 h-14 shadow-md hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center"
-      :style="{
-        right: drawerProps.railWidth === 256 ? '-29px' : '-29px',
-      }"
+      :class="[
+        isRTL
+          ? drawerProps.railWidth === 256
+            ? 'start-full -ms-7' // For Arabic, when sidebar is expanded
+            : 'start-full -ms-7' // For Arabic, when sidebar is collapsed
+          : '-end-7', // For English, keep the current positioning
+      ]"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +261,13 @@ onMounted(() => {
         stroke="currentColor"
       >
         <path
-          :d="drawerProps.icon"
+          :d="
+            isRTL
+              ? drawerProps.icon === icons.arrowLeft
+                ? icons.arrowRight
+                : icons.arrowLeft
+              : drawerProps.icon
+          "
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
