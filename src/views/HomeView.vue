@@ -19,9 +19,9 @@ import sContainer from "@/components/SectionContainer.vue";
 const { t, locale } = useI18n();
 
 const selectOptions = computed(() => [
-  { id: 1, label: t("departments.businessDevelopment") },
-  { id: 2, label: t("departments.marketing") },
-  { id: 3, label: t("departments.sales") },
+  { id: 1, label: t("homeview.departments.businessDevelopment") },
+  { id: 2, label: t("homeview.departments.marketing") },
+  { id: 3, label: t("homeview.departments.sales") },
 ]);
 
 const form = reactive({
@@ -70,60 +70,60 @@ const handleLanguageChange = (newLocale) => {
     <sContainer>
       <sTitleButton
         :icon="icons.file"
-        :title="t('titles.formsExample')"
+        :title="t('homeview.titles.formsExample')"
         color="blue"
         :button-icon="icons.excavator"
       />
 
       <CardBox form @submit.prevent="submit" class="p-6">
-        <fField :label="t('forms.name')">
+        <fField :label="t('homeview.forms.name')">
           <fControl
             v-model="form.name"
             :icon="icons.user"
-            :placeholder="t('placeholders.name')"
+            :placeholder="t('homeview.placeholders.name')"
           />
           <fControl
             v-model="form.email"
             type="email"
             :icon="icons.mail"
-            :placeholder="t('placeholders.email')"
+            :placeholder="t('homeview.placeholders.email')"
           />
         </fField>
 
-        <fField :label="t('forms.phone')" :help="t('help.phone')">
+        <fField :label="t('homeview.forms.phone')" :help="t('homeview.help.phone')">
           <fControl
             v-model="form.phone"
             type="tel"
-            :placeholder="t('placeholders.phone')"
+            :placeholder="t('homeview.placeholders.phone')"
           />
         </fField>
 
-        <fField :label="t('forms.department')">
+        <fField :label="t('homeview.forms.department')">
           <fControl v-model="form.department" :options="selectOptions" />
         </fField>
 
         <Divider />
 
-        <fField :label="t('forms.question')" :help="t('help.question')">
+        <fField :label="t('homeview.forms.question')" :help="t('homeview.help.question')">
           <fControl
             v-model="form.question"
             type="textarea"
-            :placeholder="t('placeholders.question')"
+            :placeholder="t('homeview.placeholders.question')"
           />
         </fField>
 
         <Buttons>
-          <Button color="info" type="submit" :label="t('forms.submit')" />
-          <Button color="info" :label="t('forms.options')" outline />
+          <Button color="info" type="submit" :label="t('homeview.forms.submit')" />
+          <Button color="info" :label="t('homeview.forms.options')" outline />
         </Buttons>
       </CardBox>
     </sContainer>
 
-    <sTitle>{{ t("titles.customElements") }}</sTitle>
+    <sTitle>{{ t("homeview.titles.customElements") }}</sTitle>
 
     <sContainer>
       <CardBox>
-        <fField :label="t('forms.checkbox')">
+        <fField :label="t('homeview.forms.checkbox')">
           <fRadioGroup
             v-model="customElementsForm.checkbox"
             :options="checkboxOptions"
@@ -134,7 +134,7 @@ const handleLanguageChange = (newLocale) => {
 
         <Divider />
 
-        <fField :label="t('forms.radio')">
+        <fField :label="t('homeview.forms.radio')">
           <fRadioGroup
             v-model="customElementsForm.radio"
             :options="radioOptions"
@@ -145,7 +145,7 @@ const handleLanguageChange = (newLocale) => {
 
         <Divider />
 
-        <fField :label="t('forms.switch')">
+        <fField :label="t('homeview.forms.switch')">
           <fRadioGroup
             v-model="customElementsForm.switch"
             :options="switchOptions"
@@ -157,12 +157,12 @@ const handleLanguageChange = (newLocale) => {
         <Divider />
         <fFilePicker
           v-model="customElementsForm.file"
-          :label="t('forms.upload')"
+          :label="t('homeview.forms.upload')"
         />
       </CardBox>
     </sContainer>
 
-    <sTitle>{{ t("titles.formStatus") }}</sTitle>
+    <sTitle>{{ t("homeview.titles.formStatus") }}</sTitle>
 
     <sContainer>
       <CardBox
@@ -178,16 +178,16 @@ const handleLanguageChange = (newLocale) => {
             state
           </span>
         </NotificationBarInCard>
-        <fField :label="t('forms.name')">
+        <fField :label="t('homeview.forms.name')">
           <fControl
             v-model="form.name"
             :icon="icons.user"
-            :placeholder="t('placeholders.name')"
-            :help="t('help.name')"
+            :placeholder="t('homeview.placeholders.name')"
+            :help="t('homeview.help.name')"
           />
         </fField>
         <template #footer>
-          <Button :label="t('forms.trigger')" type="submit" color="info" />
+          <Button :label="t('homeview.forms.trigger')" type="submit" color="info" />
         </template>
       </CardBox>
     </sContainer>

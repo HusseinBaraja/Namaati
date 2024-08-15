@@ -3,6 +3,10 @@ import { computed } from "vue";
 import FormControlIcon from "@/components/BaseComponents/FormControlIcon.vue";
 
 const props = defineProps({
+  modelValue: {
+    type: [String, Number],
+    default: "",
+  },
   name: {
     type: String,
     default: null,
@@ -33,6 +37,7 @@ const props = defineProps({
   },
   required: Boolean,
   transparent: Boolean,
+  disabled: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -50,6 +55,10 @@ const inputElClass = computed(() => {
     base.push("pl-10");
   }
 
+  if (props.disabled) {
+    base.push("opacity-50 cursor-not-allowed");
+  }
+
   return base;
 });
 
@@ -58,6 +67,19 @@ const computedType = computed(() => (props.options ? "select" : props.type));
 const controlIconH = computed(() =>
   props.type === "textarea" ? "h-full" : "h-12",
 );
+
+const handleInput = (event) => {
+  const value = event.target.value;
+  emit("update:modelValue", value);
+};
+
+const getOptionValue = (option) => {
+  return typeof option === 'object' ? option.id : option;
+};
+
+const getOptionLabel = (option) => {
+  return typeof option === 'object' ? option.label : option;
+};
 </script>
 
 <template>
@@ -68,14 +90,17 @@ const controlIconH = computed(() =>
       :name="name"
       :class="inputElClass"
       :required="required"
-      @change="$emit('update:modelValue', $event.target.value)"
+      :disabled="disabled"
+      :value="modelValue"
+      @change="handleInput"
     >
+      <option value="" disabled selected>{{ placeholder }}</option>
       <option
         v-for="option in options"
-        :key="option.id ?? option"
-        :value="option"
+        :key="getOptionValue(option)"
+        :value="getOptionValue(option)"
       >
-        {{ option.label ?? option }}
+        {{ getOptionLabel(option) }}
       </option>
     </select>
     <textarea
@@ -85,7 +110,9 @@ const controlIconH = computed(() =>
       :name="name"
       :placeholder="placeholder"
       :required="required"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :disabled="disabled"
+      :value="modelValue"
+      @input="handleInput"
     ></textarea>
     <input
       v-else
@@ -96,7 +123,9 @@ const controlIconH = computed(() =>
       :placeholder="placeholder"
       :type="computedType"
       :class="inputElClass"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :disabled="disabled"
+      :value="modelValue"
+      @input="handleInput"
     />
     <FormControlIcon v-if="icon" :icon="icon" :h="controlIconH" />
   </div>
