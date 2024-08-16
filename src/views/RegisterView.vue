@@ -96,7 +96,7 @@ const handleLanguageChange = (newLocale) => {
       />
 
       <CardBox form @submit.prevent="submit" class="p-6">
-        <fField :label="t('registerView.forms.yourName')">
+        <fField :label="t('registerView.forms.yourName')" :columns="2">
           <fControl
             v-model="form['your-name']"
             :icon="icons.user"
@@ -105,9 +105,7 @@ const handleLanguageChange = (newLocale) => {
             :maxlength="50"
             :minlength="10"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.id')">
           <fControl
             v-model="form.id"
             type="number"
@@ -115,9 +113,7 @@ const handleLanguageChange = (newLocale) => {
             :placeholder="t('registerView.placeholders.id')"
             required
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.tell')">
           <fControl
             v-model="form.tell"
             type="tel"
@@ -126,9 +122,7 @@ const handleLanguageChange = (newLocale) => {
             required
             :maxlength="400"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.yourEmail')">
           <fControl
             v-model="form['your-email']"
             type="email"
@@ -137,9 +131,7 @@ const handleLanguageChange = (newLocale) => {
             required
             :maxlength="400"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.nationality')">
           <fControl
             v-model="form.nationality"
             :icon="icons.flag"

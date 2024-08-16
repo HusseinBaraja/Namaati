@@ -1,7 +1,7 @@
 <script setup>
 import { computed, useSlots } from "vue";
 
-defineProps({
+const props = defineProps({
   label: {
     type: String,
     default: null,
@@ -10,20 +10,20 @@ defineProps({
     type: String,
     default: null,
   },
+  columns: {
+    type: Number,
+    default: 1,
+  },
 });
 
 const slots = useSlots();
 
 const wrapperClass = computed(() => {
-  const base = [];
+  const base = ["grid gap-3"];
   const slotsLength = slots.default().length;
 
   if (slotsLength > 1) {
-    base.push("grid grid-cols-1 gap-3");
-  }
-
-  if (slotsLength === 2) {
-    base.push("md:grid-cols-2");
+    base.push(`grid-cols-1 md:grid-cols-${props.columns}`);
   }
 
   return base;
