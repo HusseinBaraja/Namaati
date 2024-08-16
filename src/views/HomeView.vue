@@ -90,7 +90,10 @@ const handleLanguageChange = (newLocale) => {
           />
         </fField>
 
-        <fField :label="t('homeview.forms.phone')" :help="t('homeview.help.phone')">
+        <fField
+          :label="t('homeview.forms.phone')"
+          :help="t('homeview.help.phone')"
+        >
           <fControl
             v-model="form.phone"
             type="tel"
@@ -104,7 +107,10 @@ const handleLanguageChange = (newLocale) => {
 
         <Divider />
 
-        <fField :label="t('homeview.forms.question')" :help="t('homeview.help.question')">
+        <fField
+          :label="t('homeview.forms.question')"
+          :help="t('homeview.help.question')"
+        >
           <fControl
             v-model="form.question"
             type="textarea"
@@ -113,7 +119,11 @@ const handleLanguageChange = (newLocale) => {
         </fField>
 
         <Buttons>
-          <Button color="info" type="submit" :label="t('homeview.forms.submit')" />
+          <Button
+            color="info"
+            type="submit"
+            :label="t('homeview.forms.submit')"
+          />
           <Button color="info" :label="t('homeview.forms.options')" outline />
         </Buttons>
       </CardBox>
@@ -178,16 +188,20 @@ const handleLanguageChange = (newLocale) => {
             state
           </span>
         </NotificationBarInCard>
-        <fField :label="t('homeview.forms.name')">
+        <fField :label="t('homeview.forms.phone')">
           <fControl
             v-model="form.name"
             :icon="icons.user"
             :placeholder="t('homeview.placeholders.name')"
-            :help="t('homeview.help.name')"
+            :help="t('homeview.help.phone')"
           />
         </fField>
         <template #footer>
-          <Button :label="t('homeview.forms.trigger')" type="submit" color="info" />
+          <Button
+            :label="t('homeview.forms.trigger')"
+            type="submit"
+            color="info"
+          />
         </template>
       </CardBox>
     </sContainer>
