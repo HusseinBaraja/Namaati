@@ -19,7 +19,7 @@ const props = defineProps({
 const slots = useSlots();
 
 const wrapperClass = computed(() => {
-  const base = ["grid gap-3"];
+  const base = ["grid gap-4"];
   const slotsLength = slots.default().length;
 
   if (slotsLength > 1) {

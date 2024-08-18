@@ -96,7 +96,7 @@ const handleLanguageChange = (newLocale) => {
       />
 
       <CardBox form @submit.prevent="submit" class="p-6">
-        <fField :label="t('registerView.forms.yourName')" :columns="2">
+        <fField :label="t('registerView.titles.info')" :columns="2">
           <fControl
             v-model="form['your-name']"
             :icon="icons.user"
@@ -131,7 +131,9 @@ const handleLanguageChange = (newLocale) => {
             required
             :maxlength="400"
           />
+        </fField>
 
+        <fField :label="t('registerView.titles.nationality')">
           <fControl
             v-model="form.nationality"
             :icon="icons.flag"
@@ -142,7 +144,7 @@ const handleLanguageChange = (newLocale) => {
           />
         </fField>
 
-        <fField :label="t('registerView.forms.familyno')">
+        <fField :label="t('registerView.titles.family')" :columns="2">
           <fControl
             v-model="form.familyno"
             type="number"
@@ -150,9 +152,7 @@ const handleLanguageChange = (newLocale) => {
             :placeholder="t('registerView.placeholders.familyno')"
             required
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.marital')">
           <fControl
             v-model="form.marital"
             :options="maritalOptions"
@@ -160,10 +160,8 @@ const handleLanguageChange = (newLocale) => {
             :placeholder="t('registerView.placeholders.marital')"
             required
           />
-        </fField>
 
-        <template v-if="showWifeFields">
-          <fField :label="t('registerView.forms.yourWife')">
+          <template v-if="showWifeFields">
             <fControl
               v-model="form['your-wife']"
               :icon="icons.user"
@@ -172,9 +170,7 @@ const handleLanguageChange = (newLocale) => {
               :maxlength="50"
               :minlength="10"
             />
-          </fField>
 
-          <fField :label="t('registerView.forms.idWife')">
             <fControl
               v-model="form['id-wife']"
               type="number"
@@ -182,10 +178,10 @@ const handleLanguageChange = (newLocale) => {
               :placeholder="t('registerView.placeholders.idWife')"
               required
             />
-          </fField>
-        </template>
+          </template>
+        </fField>
 
-        <fField :label="t('registerView.forms.jop')">
+        <fField :label="t('registerView.titles.employee')" :columns="2">
           <fControl
             v-model="form.jop"
             :icon="icons.briefcase"
@@ -194,9 +190,7 @@ const handleLanguageChange = (newLocale) => {
             :maxlength="20"
             :minlength="4"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.salary')">
           <fControl
             v-model="form.salary"
             type="number"
@@ -206,7 +200,7 @@ const handleLanguageChange = (newLocale) => {
           />
         </fField>
 
-        <fField :label="t('registerView.forms.governorate')">
+        <fField :label="t('registerView.titles.address')" :columns="2">
           <fControl
             v-model="form.governorate"
             :options="governorateOptions"
@@ -214,9 +208,7 @@ const handleLanguageChange = (newLocale) => {
             :placeholder="t('registerView.placeholders.governorate')"
             required
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.area')">
           <fControl
             v-model="form.area"
             :options="areaOptions"
@@ -225,9 +217,7 @@ const handleLanguageChange = (newLocale) => {
             required
             :disabled="!form.governorate"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.street')">
           <fControl
             v-model="form.street"
             :icon="icons.road"
@@ -236,18 +226,14 @@ const handleLanguageChange = (newLocale) => {
             :maxlength="20"
             :minlength="1"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.avenu')">
           <fControl
             v-model="form.avenu"
             type="number"
             :icon="icons.cornerUpRight"
             :placeholder="t('registerView.placeholders.avenu')"
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.home')">
           <fControl
             v-model="form.home"
             type="number"
@@ -255,9 +241,7 @@ const handleLanguageChange = (newLocale) => {
             :placeholder="t('registerView.placeholders.home')"
             required
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.round')">
           <fControl
             v-model="form.round"
             type="number"
@@ -265,9 +249,7 @@ const handleLanguageChange = (newLocale) => {
             :placeholder="t('registerView.placeholders.round')"
             required
           />
-        </fField>
 
-        <fField :label="t('registerView.forms.Flat')">
           <fControl
             v-model="form.Flat"
             type="number"

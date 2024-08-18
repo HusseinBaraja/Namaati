@@ -45,6 +45,11 @@ export default {
     registerView: {
       titles: {
         registration: "Registration Form",
+        info: "Personal Information",
+        family: "Family Information",
+        employee: "Employment Information",
+        address: "Address",
+        nationality: "Nationality",
       },
       forms: {
         yourName: "Full Name",
@@ -151,6 +156,11 @@ export default {
     registerView: {
       titles: {
         registration: "نموذج التسجيل",
+        info: "معلومات شخصية",
+        family: "معلومات الأسرة",
+        employee: "تفاصيل العمل",
+        address: "معلومات العنوان",
+        nationality: "الجنسية",
       },
       forms: {
         yourName: "الاسم الكامل",
